@@ -23,7 +23,6 @@ namespace LegacyApp.Services
             return age >= ageLimit;
         }
 
-
         public void SetUserCreditLimit(Client client, User user)
         {
             switch (client.Name)
@@ -81,7 +80,7 @@ namespace LegacyApp.Services
 
                 SetUserCreditLimit(client, user);
 
-                if (user.HasCreditLimit && user.CreditLimit < (int)Credit.Limit) return false;
+                if(user.HasCreditLimit && user.CreditLimit < (int)Credit.Limit) return false;
 
                 UserRepository.Add(user);
                 return true;
