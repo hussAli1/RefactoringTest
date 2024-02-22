@@ -11,6 +11,5 @@ namespace LegacyApp.DataAccess
     public interface IDataBase
     {
         DataTable Get(List<SqlParameter> sqlParameters, string sqlQuery);
-        int ExecuteQuery(List<SqlParameter> sqlParameters, string sqlQuery, string nameReturnValue);
     }
 }

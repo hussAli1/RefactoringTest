@@ -9,12 +9,10 @@ namespace LegacyApp.Services
 {
     public class UserService
     {
-        public Client GetClientById(int clientId)
-        {
-            return new ClientRepository().GetById(clientId);
-        }
-
-        public bool CheckUserAge(DateTime dateOfBirth, int ageLimit)
+        private Client GetClientById(int clientId) 
+            => new ClientRepository().GetById(clientId);
+        
+        private bool CheckUserAge(DateTime dateOfBirth, int ageLimit)
         {
             var dateTimeNow = DateTime.Now;
             int age = dateTimeNow.Year - dateOfBirth.Year;
@@ -23,7 +21,7 @@ namespace LegacyApp.Services
             return age >= ageLimit;
         }
 
-        public void SetUserCreditLimit(Client client, User user)
+        private void SetUserCreditLimit(Client client, User user)
         {
             switch (client.Name)
             {
@@ -38,30 +36,24 @@ namespace LegacyApp.Services
                     {
                         var creditLimit = userCreditService.GetCreditLimit(user.Firstname, user.Surname, user.DateOfBirth);
                         if (client.Name == nameof(CheckClientName.ImportantClient))
-                        {
-                            creditLimit *= 2;
-                        }
+                             creditLimit *= 2;
+                        
                         user.CreditLimit = creditLimit;
                     }
                     break;
             }
         }
-
-        public bool CheckFullName(string firstName, string surName)
-        {
-            return string.IsNullOrEmpty(firstName) || string.IsNullOrEmpty(surName);
-        }
-
-        public bool CheckEmail(string email)
-        {
-            return email.Contains("@") && !email.Contains(".");
-        }
-
+        
+        private bool CheckEmail(string email) 
+            => email.Contains("@") && !email.Contains(".");
+        
         public bool AddUser(string firstName, string surName, string email, DateTime dateOfBirth, int clientId)
         {
             try
             {
-                if (!CheckFullName(firstName, surName)) return false;
+                if(string.IsNullOrEmpty(firstName) || string.IsNullOrEmpty(surName))
+                    return false;
+
 
                 if (!CheckEmail(email)) return false;
 

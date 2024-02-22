@@ -27,11 +27,7 @@ namespace LegacyApp.DataAccess
                 _connection.Close();
 
         }
-        public int ExecuteQuery(List<SqlParameter> sqlParameters, string sqlQuery, string nameReturnValue)
-        {
-            throw new NotImplementedException();
-        }
-
+      
         public DataTable Get(List<SqlParameter> sqlParameters, string sqlQuery)
         {
             try
