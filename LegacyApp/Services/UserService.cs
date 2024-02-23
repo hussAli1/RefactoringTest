@@ -11,7 +11,6 @@ namespace LegacyApp.Services
     {
         private Client GetClientById(int clientId) 
             => new ClientRepository().GetById(clientId);
-        
         private bool CheckUserAge(DateTime dateOfBirth, int ageLimit)
         {
             var dateTimeNow = DateTime.Now;
