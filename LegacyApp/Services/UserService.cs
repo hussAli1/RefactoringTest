@@ -9,8 +9,6 @@ namespace LegacyApp.Services
 {
     public class UserService
     {
-        private Client GetClientById(int clientId) 
-            => new ClientRepository().GetById(clientId);
         private bool CheckUserAge(DateTime dateOfBirth, int ageLimit)
         {
             var dateTimeNow = DateTime.Now;
@@ -57,7 +55,7 @@ namespace LegacyApp.Services
 
                 if (!CheckUserAge(dateOfBirth, (int)Age.Limit)) return false;
 
-                var client = GetClientById(clientId);
+                var client = new ClientRepository().GetById(clientId); ;
 
                 var user = new User
                 {
