@@ -1,5 +1,4 @@
-﻿using LegacyApp.Enums;
-
+﻿
 namespace LegacyApp.Model
 {
     public class Client

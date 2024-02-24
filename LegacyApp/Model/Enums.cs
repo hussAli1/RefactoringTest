@@ -4,8 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LegacyApp.Enums
+namespace LegacyApp.Model
 {
+    public enum ClientStatus
+    {
+        none = 0
+    }
+
     public enum CheckClientName
     {
         VeryImportantClient,

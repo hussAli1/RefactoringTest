@@ -1,5 +1,4 @@
-﻿using LegacyApp.Services;
-using System;
+﻿using System;
 
 namespace LegacyApp.Consumer
 {

@@ -1,14 +1,27 @@
 ﻿using LegacyApp.DataAccess;
-using LegacyApp.Enums;
 using LegacyApp.Interface;
 using LegacyApp.Model;
 using LegacyApp.Repository;
+using LegacyApp.Services;
 using System;
 
-namespace LegacyApp.Services
+namespace LegacyApp
 {
     public class UserService
     {
+        private readonly IClientRepository _clientRepository;
+        private readonly IUserCreditService _userCreditService;
+
+        //solid principle #5
+        public UserService(IClientRepository clientRepository, IUserCreditService userCreditService)
+        {
+            _clientRepository = clientRepository;
+            _userCreditService = userCreditService;
+        }
+        public UserService() : this(new ClientRepository(), new UserCreditServiceClient())
+        {
+
+        }
         private bool CheckUserAge(DateTime dateOfBirth, int ageLimit)
         {
             var dateTimeNow = DateTime.Now;
@@ -28,34 +41,32 @@ namespace LegacyApp.Services
 
                 case nameof(CheckClientName.ImportantClient):
                 default:
+
                     user.HasCreditLimit = true;
-                    using (var userCreditService = new UserCreditServiceClient())
-                    {
-                        var creditLimit = userCreditService.GetCreditLimit(user.Firstname, user.Surname, user.DateOfBirth);
-                        if (client.Name == nameof(CheckClientName.ImportantClient))
-                             creditLimit *= 2;
-                        
-                        user.CreditLimit = creditLimit;
-                    }
+                    var creditLimit = _userCreditService.GetCreditLimit(user.Firstname, user.Surname, user.DateOfBirth);
+                    if (client.Name == nameof(CheckClientName.ImportantClient))
+                        creditLimit *= 2;
+                    user.CreditLimit = creditLimit;
+
                     break;
             }
         }
-        
-        private bool CheckEmail(string email) 
+
+        private bool CheckEmail(string email)
             => email.Contains("@") && !email.Contains(".");
-        
+
         public bool AddUser(string firstName, string surName, string email, DateTime dateOfBirth, int clientId)
         {
             try
             {
-                if(string.IsNullOrEmpty(firstName) || string.IsNullOrEmpty(surName))
+                if (string.IsNullOrEmpty(firstName) || string.IsNullOrEmpty(surName))
                     return false;
 
                 if (!CheckEmail(email)) return false;
 
                 if (!CheckUserAge(dateOfBirth, (int)Age.Limit)) return false;
 
-                var client = new ClientRepository().GetById(clientId); ;
+                var client = _clientRepository.GetById(clientId); ;
 
                 var user = new User
                 {
@@ -68,7 +79,7 @@ namespace LegacyApp.Services
 
                 SetUserCreditLimit(client, user);
 
-                if(user.HasCreditLimit && user.CreditLimit < (int)Credit.Limit) return false;
+                if (user.HasCreditLimit && user.CreditLimit < (int)Credit.Limit) return false;
 
                 UserRepository.Add(user);
                 return true;
@@ -78,5 +89,7 @@ namespace LegacyApp.Services
                 throw new NotImplementedException();
             }
         }
+
+
     }
 }
