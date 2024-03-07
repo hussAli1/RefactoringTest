@@ -66,7 +66,7 @@ namespace LegacyApp
 
                 if (!CheckUserAge(dateOfBirth, (int)Age.Limit)) return false;
 
-                var client = _clientRepository.GetById(clientId); ;
+                var client = _clientRepository.GetById(clientId);
 
                 var user = new User
                 {
@@ -77,11 +77,11 @@ namespace LegacyApp
                     Surname = surName
                 };
 
-                SetUserCreditLimit(client, user);
+                //SetUserCreditLimit(client, user);
 
-                if (user.HasCreditLimit && user.CreditLimit < (int)Credit.Limit) return false;
+                //if (user.HasCreditLimit && user.CreditLimit < (int)Credit.Limit) return false;
 
-                UserRepository.Add(user);
+                //UserRepository.Add(user);
                 return true;
             }
             catch (Exception ex)
