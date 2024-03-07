@@ -40,7 +40,7 @@ namespace LegacyApp.Tests
         public bool CheckClientById()
         {
             UserService sut = new UserService(_clientRepositoryMocked, _userCreditServiceMocked);
-            if (sut.AddUser("ali4", "ali4", "hussa@ingmailcom", new DateTime(2000, 1, 1), 2) == false)
+            if (sut.AddUser("ali4", "ali4", "hussa@ingmail.com", new DateTime(2000, 1, 1), 2) == false)
                 return true;
 
             return false;

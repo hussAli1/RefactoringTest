@@ -62,7 +62,7 @@ namespace LegacyApp
                 if (string.IsNullOrEmpty(firstName) || string.IsNullOrEmpty(surName))
                     return false;
 
-                if (!CheckEmail(email)) return false;
+                if (CheckEmail(email)) return false;
 
                 if (!CheckUserAge(dateOfBirth, (int)Age.Limit)) return false;
 
