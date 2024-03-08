@@ -6,7 +6,7 @@ namespace LegacyApp.Tests
     {
         public int GetCreditLimit(string firstname, string surname, DateTime dateOfBirth)
         {
-            return 500;
+            return 50;
         }
     }
 }

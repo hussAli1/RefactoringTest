@@ -12,6 +12,7 @@ namespace LegacyApp.Tests
             CheckTest(serviceTests.TestIfUserCheckEmail, true);
             CheckTest(serviceTests.TestIfUserCheckAge, true);
             CheckTest(serviceTests.CheckClientById, true);
+            CheckTest(serviceTests.CheckCreditLimitEqual500, true);
 
             Console.ReadKey();
         }

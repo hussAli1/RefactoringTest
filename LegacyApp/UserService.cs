@@ -31,27 +31,6 @@ namespace LegacyApp
             return age >= ageLimit;
         }
 
-        private void SetUserCreditLimit(Client client, User user)
-        {
-            switch (client.Name)
-            {
-                case nameof(CheckClientName.VeryImportantClient):
-                    user.HasCreditLimit = false;
-                    break;
-
-                case nameof(CheckClientName.ImportantClient):
-                default:
-
-                    user.HasCreditLimit = true;
-                    var creditLimit = _userCreditService.GetCreditLimit(user.Firstname, user.Surname, user.DateOfBirth);
-                    if (client.Name == nameof(CheckClientName.ImportantClient))
-                        creditLimit *= 2;
-                    user.CreditLimit = creditLimit;
-
-                    break;
-            }
-        }
-
         private bool CheckEmail(string email)
             => email.Contains("@") && !email.Contains(".");
 
@@ -62,11 +41,14 @@ namespace LegacyApp
                 if (string.IsNullOrEmpty(firstName) || string.IsNullOrEmpty(surName))
                     return false;
 
-                if (CheckEmail(email)) return false;
+                if (CheckEmail(email)) 
+                    return false;
 
-                if (!CheckUserAge(dateOfBirth, (int)Age.Limit)) return false;
+                if (!CheckUserAge(dateOfBirth, (int)Age.Limit)) 
+                    return false;
 
                 var client = _clientRepository.GetById(clientId);
+
 
                 var user = new User
                 {
@@ -77,9 +59,26 @@ namespace LegacyApp
                     Surname = surName
                 };
 
-                //SetUserCreditLimit(client, user);
+                switch (client.Name)
+                {
+                    case nameof(CheckClientName.VeryImportantClient):
+                        user.HasCreditLimit = false;
+                        break;
 
-                //if (user.HasCreditLimit && user.CreditLimit < (int)Credit.Limit) return false;
+                    case nameof(CheckClientName.ImportantClient):
+                    default:
+
+                        user.HasCreditLimit = true;
+                        var creditLimit = _userCreditService.GetCreditLimit(user.Firstname, user.Surname, user.DateOfBirth);
+                        if (client.Name == nameof(CheckClientName.ImportantClient))
+                            creditLimit *= 2;
+                        user.CreditLimit = creditLimit;
+
+                        break;
+                }
+
+                if (user.HasCreditLimit && user.CreditLimit < (int)Credit.Limit) 
+                    return false;
 
                 //UserRepository.Add(user);
                 return true;

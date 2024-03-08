@@ -45,5 +45,14 @@ namespace LegacyApp.Tests
 
             return false;
         }
+
+        public bool CheckCreditLimitEqual500()
+        {
+            UserService sut = new UserService(_clientRepositoryMocked, _userCreditServiceMocked);
+            if (sut.AddUser("ali5", "ali5", "hussa@ingmail.com", new DateTime(2000, 1, 1), 3) == false)
+                return true;
+
+            return false;
+        }
     }
 }

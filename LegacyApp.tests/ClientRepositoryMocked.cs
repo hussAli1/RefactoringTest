@@ -19,7 +19,7 @@ namespace LegacyApp.Tests
 
             _clients.Add(new Client
             {
-                Name = "VeryImportantClient",
+                Name = "ImportantClient",
                 ClientStatus = ClientStatus.none,
                 Id = 2
             });
